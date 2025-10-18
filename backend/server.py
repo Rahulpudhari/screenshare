@@ -33,7 +33,8 @@ sio = socketio.AsyncServer(
     async_mode='asgi',
     cors_allowed_origins='*',
     logger=True,
-    engineio_logger=True
+    engineio_logger=True,
+    path='socket.io'  # Path without leading slash for the router
 )
 
 # Create the main app without a prefix
