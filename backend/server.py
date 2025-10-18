@@ -190,6 +190,10 @@ async def get_status_checks():
 # Include the router in the main app
 app.include_router(api_router)
 
+# Mount Socket.IO on the /api prefix
+socket_io_app = socketio.ASGIApp(sio)
+app.mount('/api', socket_io_app)
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
@@ -202,5 +206,5 @@ app.add_middleware(
 async def shutdown_db_client():
     client.close()
 
-# Mount Socket.IO and create the final app
+# Mount Socket.IO and create the final app (this wraps everything)
 app = socketio.ASGIApp(sio, app)
