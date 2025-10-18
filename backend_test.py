@@ -95,7 +95,7 @@ class ScreenShareTester:
         print("\n=== Testing Socket.IO Connection ===")
         try:
             client = await self.setup_client("test_connection")
-            await client.connect(BACKEND_URL)
+            await client.connect(SOCKETIO_URL)
             await asyncio.sleep(1)  # Wait for connection events
             await client.disconnect()
             self.test_results['connection'] = True
@@ -111,7 +111,7 @@ class ScreenShareTester:
         print("\n=== Testing Room Creation ===")
         try:
             client = await self.setup_client("sharer")
-            await client.connect(BACKEND_URL)
+            await client.connect(SOCKETIO_URL)
             await asyncio.sleep(1)
             
             # Create room
