@@ -28,16 +28,23 @@ mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
-# Store active rooms and connections
-rooms: Dict[str, Dict] = {}  # room_id -> {sharer: sid, viewers: Set[sid], last_frame: base64}
-
-# Create Socket.IO server - it will be accessible at /api/socket.io through the proxy
+# Create Socket.IO server
 sio = socketio.AsyncServer(
     async_mode='asgi',
     cors_allowed_origins='*',
     logger=True,
-    engineio_logger=True
+    engineio_logger=True,
+    path='socket.io'  # Path without leading slash for the router
 )
+
+# Create the main app without a prefix
+app = FastAPI()
+
+# Create a router with the /api prefix
+api_router = APIRouter(prefix="/api")
+
+# Store active rooms and connections
+rooms: Dict[str, Dict] = {}  # room_id -> {sharer: sid, viewers: Set[sid], last_frame: base64}
 
 # Socket.IO event handlers
 @sio.event
@@ -140,12 +147,6 @@ async def leave_room(sid, data):
         sharer_sid = rooms[room_id]['sharer']
         await sio.emit('viewer_left', {'viewer_count': len(rooms[room_id]['viewers'])}, room=sharer_sid)
 
-# Create the main FastAPI app
-app = FastAPI()
-
-# Create a router with the /api prefix
-api_router = APIRouter(prefix="/api")
-
 # Define Models
 class StatusCheck(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -189,6 +190,10 @@ async def get_status_checks():
 # Include the router in the main app
 app.include_router(api_router)
 
+# Mount Socket.IO on the /api prefix
+socket_io_app = socketio.ASGIApp(sio)
+app.mount('/api', socket_io_app)
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
@@ -201,5 +206,5 @@ app.add_middleware(
 async def shutdown_db_client():
     client.close()
 
-# Wrap the FastAPI app with Socket.IO
+# Mount Socket.IO and create the final app (this wraps everything)
 app = socketio.ASGIApp(sio, app)
