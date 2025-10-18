@@ -140,7 +140,7 @@ class ScreenShareTester:
         try:
             # First create a room
             sharer = await self.setup_client("sharer")
-            await sharer.connect(BACKEND_URL)
+            await sharer.connect(SOCKETIO_URL)
             await asyncio.sleep(1)
             
             await sharer.emit('create_room', {})
@@ -185,7 +185,7 @@ class ScreenShareTester:
             viewer2 = await self.setup_client("viewer2")
             
             # Connect all clients
-            await sharer.connect(BACKEND_URL)
+            await sharer.connect(SOCKETIO_URL)
             await viewer1.connect(BACKEND_URL)
             await viewer2.connect(BACKEND_URL)
             await asyncio.sleep(1)
@@ -242,7 +242,7 @@ class ScreenShareTester:
             viewer2 = await self.setup_client("viewer2")
             
             # Connect all
-            await sharer.connect(BACKEND_URL)
+            await sharer.connect(SOCKETIO_URL)
             await viewer1.connect(BACKEND_URL)
             await viewer2.connect(BACKEND_URL)
             await asyncio.sleep(1)
