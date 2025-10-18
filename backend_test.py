@@ -187,7 +187,7 @@ class ScreenShareTester:
             # Connect all clients
             await sharer.connect(SOCKETIO_URL)
             await viewer1.connect(SOCKETIO_URL)
-            await viewer2.connect(BACKEND_URL)
+            await viewer2.connect(SOCKETIO_URL)
             await asyncio.sleep(1)
             
             # Create room
@@ -244,7 +244,7 @@ class ScreenShareTester:
             # Connect all
             await sharer.connect(SOCKETIO_URL)
             await viewer1.connect(SOCKETIO_URL)
-            await viewer2.connect(BACKEND_URL)
+            await viewer2.connect(SOCKETIO_URL)
             await asyncio.sleep(1)
             
             # Create room and join viewers
