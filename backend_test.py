@@ -18,8 +18,12 @@ from dotenv import load_dotenv
 load_dotenv('/app/frontend/.env')
 
 # Get backend URL from environment
-BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'https://hotspot-mirror.preview.emergentagent.com')
-API_BASE_URL = f"{BACKEND_URL}/api"
+EXTERNAL_BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'https://hotspot-mirror.preview.emergentagent.com')
+INTERNAL_BACKEND_URL = 'http://localhost:8001'
+API_BASE_URL = f"{EXTERNAL_BACKEND_URL}/api"
+
+# Use internal URL for Socket.IO since external routing might not support it
+SOCKETIO_URL = INTERNAL_BACKEND_URL
 
 print(f"Testing backend at: {BACKEND_URL}")
 print(f"API base URL: {API_BASE_URL}")
