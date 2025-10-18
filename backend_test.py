@@ -311,7 +311,7 @@ class ScreenShareTester:
     async def run_all_tests(self):
         """Run all tests"""
         print("🚀 Starting Screen Share Backend Tests")
-        print(f"Backend URL: {BACKEND_URL}")
+        print(f"Socket.IO URL: {SOCKETIO_URL}")
         
         # Test REST API first (doesn't require Socket.IO)
         self.test_rest_api()
