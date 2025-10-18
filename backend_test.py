@@ -25,7 +25,8 @@ API_BASE_URL = f"{EXTERNAL_BACKEND_URL}/api"
 # Use internal URL for Socket.IO since external routing might not support it
 SOCKETIO_URL = INTERNAL_BACKEND_URL
 
-print(f"Testing backend at: {BACKEND_URL}")
+print(f"Testing REST API at: {EXTERNAL_BACKEND_URL}")
+print(f"Testing Socket.IO at: {SOCKETIO_URL}")
 print(f"API base URL: {API_BASE_URL}")
 
 class ScreenShareTester:
