@@ -153,7 +153,7 @@ class ScreenShareTester:
             
             # Test valid room join
             viewer = await self.setup_client("viewer")
-            await viewer.connect(BACKEND_URL)
+            await viewer.connect(SOCKETIO_URL)
             await asyncio.sleep(1)
             
             await viewer.emit('join_room', {'room_id': self.room_id})
