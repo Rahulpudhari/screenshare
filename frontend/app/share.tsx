@@ -30,9 +30,9 @@ export default function ShareScreen() {
   const screenRef = useRef<View>(null);
 
   useEffect(() => {
-    // Connect to Socket.IO server
+    // Connect to Socket.IO server  
     const socket = io(BACKEND_URL, {
-      path: '/socket.io',
+      path: '/api/socket.io',
       transports: ['polling', 'websocket'],
       reconnection: true,
       reconnectionAttempts: 5,
