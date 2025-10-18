@@ -31,7 +31,7 @@ export default function ViewScreen() {
   useEffect(() => {
     // Connect to Socket.IO server
     const socket = io(BACKEND_URL, {
-      path: '/socket.io',
+      path: '/api/socket.io',
       transports: ['polling', 'websocket'],
       reconnection: true,
       reconnectionAttempts: 5,
